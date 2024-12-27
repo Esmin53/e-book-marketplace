@@ -2,20 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.light {
+  --primary: 247, 245, 235;
+  --accent: 167, 114, 125;
+  --accent-2: 214 175 175;
+  --text: 34, 40, 49;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --primary: 49, 54, 63;
+  --accent: 167, 114, 125;
+  --accent-2: 234 199 199;
+  --text: 238, 238, 238;
 }
+
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--text);
+  background: var(--primary);
   font-family: Arial, Helvetica, sans-serif;
 }
