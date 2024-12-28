@@ -2,11 +2,21 @@
 
 import { ThemeContext } from '@/context/ThemeContext'
 import { Moon, Search, Sun } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import React, { useContext } from 'react'
 
 const Navbar = () => {
 
+  const pathname = usePathname().split("/")[1]
+
+  console.log(pathname)
+
   const {setTheme, theme} = useContext(ThemeContext)
+
+  if(pathname === 'log-in') {
+    return null
+  }
 
   return (
     <div className='w-full h-20 bg-accent flex items-center px-52 shadow-sm text-text gap-6'>
@@ -20,7 +30,7 @@ const Navbar = () => {
                 </button>
             </div>
         </div>
-        <p className='text-lg cursor-pointer ml-auto'>Log in</p>
+        <Link href='/log-in' className='text-lg cursor-pointer ml-auto'>Log in</Link>
         <button className='text-lg cursor-pointer w-14 h-7 rounded-full bg-accent2 relative' onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
             <div className={`absolute top-0.5 ${theme === 'dark' ? 'left-1' : 'right-1'}`}>
               {theme === 'dark' ? <Sun /> : <Moon />}
