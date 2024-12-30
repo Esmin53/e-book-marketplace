@@ -11,6 +11,7 @@ export default {
     extend: {
       colors: {
         primary: "rgba(var(--primary))",
+        secondary: "rgba(var(--secondary))",
         accent: "rgba(var(--accent))",
         accent2: "rgba(var(--accent-2))",
         text: "rgba(var(--text))",

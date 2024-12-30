@@ -1,7 +1,7 @@
 "use client"
 
 import { ThemeContext } from '@/context/ThemeContext'
-import { Moon, Search, Sun } from 'lucide-react'
+import { ChartNoAxesColumn, Moon, Search, ShoppingBag, Sun } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -14,7 +14,7 @@ const Navbar = () => {
   const {setTheme, theme} = useContext(ThemeContext)
   const session = useSession()
 
-  if(pathname === 'log-in') {
+  if(pathname === 'log-in' || pathname === 'dashboard') {
     return null
   }
 
@@ -37,11 +37,13 @@ const Navbar = () => {
           </button> : 
           <Link href='/log-in' className='text-lg cursor-pointer ml-auto'>Log in</Link>
         }
-        <button className='text-lg cursor-pointer w-14 h-7 rounded-full bg-accent2 relative' onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
-            <div className={`absolute top-0.5 ${theme === 'dark' ? 'left-1' : 'right-1'}`}>
+        {session?.data?.user.role === 'admin' ? <Link href={'/dashboard/new-book'} className='text-text'>
+          <ChartNoAxesColumn />
+        </Link> : <ShoppingBag className='text-text w-5 h-5 cursor-pointer' />}
+        <button className='text-lg cursor-pointer rounded-full' onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
               {theme === 'dark' ? <Sun /> : <Moon />}
-            </div>
         </button>
+
     </div>
   )
 }
