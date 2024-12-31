@@ -17,7 +17,7 @@ const Sidebar = () => {
             <h1 className='text-xl font-medium'>My Dashoard
             </h1>
         </div>
-        <div className='w-full h-[1px] bg-gray-500/80 shadow'/>
+        <div className='w-full h-[1px] bg-accentBlue/85 shadow'/>
         <div className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
             ${pathname==='new-book' ? 'border border-primary/80 border-opacity-60 shadow bg-primary pl-5' : ''}`}>
             <Plus className='w-6 h-6' />
@@ -48,13 +48,13 @@ const Sidebar = () => {
             <UserPen className='w-6 h-6' />
             <p className="text-lg font-medium">Users</p>
         </div>
-        <div className='mt-auto w-full h-[1.5px] bg-gray-500/80 shadow'/>
+        <div className='mt-auto w-full h-[1.5px] bg-accentBlue/85 shadow'/>
         <div className='w-full h-12 flex items-center justify-between'>
             <Link href={'/'}>
                 <Home className='w-7 h-7'/>
             </Link>
             <button className='text-lg cursor-pointer rounded-full' onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
-                {theme === 'dark' ? <Sun className='w-7 h-7 text-[#EABE6C]'/> : <Moon className='w-7 h-7 text-[#76ABAE]'/>}
+                {theme === 'dark' ? <Sun className='w-7 h-7 text-[#EABE6C]'/> : <Moon className='w-7 h-7 text-accentBlue'/>}
             </button>
             <LogOut className='w-7 h-7 cursor-pointer'/>
         </div>
