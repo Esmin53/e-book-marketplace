@@ -10,7 +10,7 @@ export default function Layout({
     return (
       <div className="flex flex-1 p-2 gap-2 text-text h-screen bg-secondary w-screen">
           <Sidebar />
-          <div className="flex flex-1 p-4 rounded-xl bg-primary shadow overflow-y-scroll">
+          <div className="flex flex-1 p-4 rounded-xl bg-primary shadow overflow-y-auto">
             {children}
           </div>
       </div>

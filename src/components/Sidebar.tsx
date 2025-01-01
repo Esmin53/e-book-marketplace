@@ -18,21 +18,21 @@ const Sidebar = () => {
             </h1>
         </div>
         <div className='w-full h-[1px] bg-accentBlue/85 shadow'/>
-        <div className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
+        <Link href={'/dashboard/new-book'} className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
             ${pathname==='new-book' ? 'border border-primary/80 border-opacity-60 shadow bg-primary pl-5' : ''}`}>
             <Plus className='w-6 h-6' />
             <p className="text-lg font-medium">New Book</p>
-        </div>
+        </Link>
         <div className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
             ${pathname==='overview' ? 'border border-primary/80 border-opacity-60 shadow bg-primary pl-5' : ''}`}>
             <ChartArea className='w-6 h-6' />
             <p className="text-lg font-medium">Overview</p>
         </div>
-        <div className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
+        <Link href={'/dashboard/manage-books'} className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
             ${pathname==='manage-books' ? 'border border-primary/80 border-opacity-60 shadow bg-primary pl-5' : ''}`}>
             <FolderCog className='w-6 h-6' />
             <p className="text-lg font-medium">Manage books</p>
-        </div>
+        </Link>
         <div className={`flex gap-2 py-2 px-3 cursor-pointer items-center rounded-md hover:pl-5 duration-200 
             ${pathname==='orders' ? 'border border-primary/80 border-opacity-60 shadow bg-primary pl-5' : ''}`}>
             <Package className='w-6 h-6' />
