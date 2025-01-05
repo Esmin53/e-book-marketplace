@@ -1,6 +1,6 @@
 "use client"
 
-import { CloudUpload, Loader2 } from 'lucide-react'
+import { CloudUpload, Loader2, Trash2 } from 'lucide-react'
 import Select from '@/components/Select'
 import { useContext, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -9,10 +9,14 @@ import { BookValidator, TBookValidator } from '@/lib/validators/book-validator'
 import { toast } from 'sonner'
 import { ThemeContext } from '@/context/ThemeContext'
 import Link from 'next/link'
+import { uploadFile } from '@/lib/supabaseClient'
 
 
 const Page = () => {
   const [genres, setGenres] = useState< string[]>([])
+  const [coverImg, setCoverImg] = useState<File | null>(null)
+  const [coverImgPreview, setCoverImgPreview] = useState<string | null>(null)
+  const [file, setFile] = useState<File | null>(null)
   const [isLoading, setIsLoading] = useState<boolean >(false)
 
   const {theme} = useContext(ThemeContext)
@@ -47,10 +51,21 @@ const Page = () => {
     }
   }
 
-  const onSubmit: SubmitHandler<TBookValidator> = async ({title, price, author, genres, cover_image, file_url}) => {
+
+
+
+  const onSubmit: SubmitHandler<TBookValidator> = async ({title, price, author, genres}) => {
     if(genres.length === 0) return
+    if(coverImg === null ||file === null) {
+      toast.error('Please provide valid cover image and a file!')
+      return
+    }
     setIsLoading(true)
     try {
+      
+      let cover_image = await uploadFile(coverImg, 'images')
+      let book_file = await uploadFile(file, 'files')
+      
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/dashboard/book`, {
         method: 'POST',
         body: JSON.stringify({
@@ -59,7 +74,7 @@ const Page = () => {
           author,
           genres,
           cover_image,
-          file_url
+          file_url: book_file
         })
       })
       const data = await response.json()
@@ -72,7 +87,12 @@ const Page = () => {
           genres: [],
           cover_image: "",
           file_url: "",})
-        return
+          setCoverImg(null)
+          setCoverImgPreview(null)
+          setFile(null)
+          setGenres([])  
+        
+          return
       }
 
       if(response.status === 400) {
@@ -134,19 +154,49 @@ const Page = () => {
           </div>
           <div className='flex flex-col gap-1' >
               <label className='text-sm' htmlFor='title'>File url</label>
-              <div className='w-full h-12 bg-[#76ABAE] rounded-md shadow-sm flex items-center justify-center cursor-pointer'
-              onClick={() => setValue('file_url', 'Mock url to file location')}>
-                File Url
-              </div>
+              <label htmlFor='file_input'
+              className='w-full h-12 bg-[#76ABAE] rounded-md shadow-sm flex items-center justify-center cursor-pointer' >
+                Select File
+              </label>
+              <input id='file_input'className='hidden'
+              type='file' onChange={((e) => {
+                if(e.target.files)
+                  setFile(e.target.files[0])
+              })} />
               {errors.file_url ? <p className='text-xs text-red-500'>{errors.file_url?.message}</p> : null}
-              {watch('file_url') ? <p className='text-xs font-medium'>File url: {watch('file_url')}</p> : null}
+              {file ? <p className='text-xs font-medium'>File url: {file.name}</p> : null}
           </div>
-          <div className='flex flex-col gap-1'>
-            <div className='w-full h-64 border border-dashed border-text flex items-center justify-center rounded-md  cursor-pointer'
-            onClick={() => setValue('cover_image', 'Mock url to cover image')}>
-                <CloudUpload  className='w-8 h-8'/>
-            </div>
-            {watch('cover_image') ? <p className='text-xs font-medium'>File url: {watch('cover_image')}</p> : null}
+          <div className='flex flex-col gap-1 overflow-hidden'>
+            <label htmlFor='cover_image' className='w-full relative h-64 border border-dashed border-text flex items-center justify-center 
+            rounded-md cursor-pointer z-30'
+            >
+              <div className='relative w-full h-full flex items-center justify-center'>
+              {coverImgPreview ? <img className='aboslute h-full z-40 top-0 left-0'
+                src={coverImgPreview}
+              /> : null}
+              {coverImgPreview ? <Trash2 className='absolute z-50 top-4 right-4 text-red-400' onClick={() => {
+                setCoverImg(null)
+                setCoverImgPreview(null)
+              }}/> : null}
+                {!coverImgPreview ? <div className='flex flex-col items-center justify-center'>
+                  <CloudUpload  className='w-8 h-8'/>
+                  <p className='text-sm font-medium'>Select an cover image for this book.</p>
+                </div> : null}
+              </div>
+            </label>
+            <input id='cover_image'className='hidden'
+              type='file' onChange={((e) => {
+                if(e.target.files && e.target.files[0]) {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                    setCoverImgPreview(reader.result as string);
+                  };
+                  reader.readAsDataURL(e.target.files[0])
+                  setCoverImg(e.target.files[0])
+                }
+                  
+              })} />
+            {coverImgPreview ? <p className='text-xs font-medium'>File url: {coverImgPreview}</p> : null}
             {errors.cover_image ? <p className='text-xs text-red-500'>{errors.cover_image?.message}</p> : null}
             </div>
 
