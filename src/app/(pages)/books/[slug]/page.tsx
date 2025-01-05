@@ -1,3 +1,4 @@
+import AddToCart from '@/components/AddToCart'
 import { GENRES } from '@/lib/utils'
 import Book from '@/models/Book'
 import { Star } from 'lucide-react'
@@ -18,14 +19,14 @@ async function Page({
   }) {
     const {slug} = await params
    
-    const book:  {
-        _id: string
-        title: string
-        author: string
-        price: number
-        genres: string[],
-        cover_image: string
-      } | null = await Book.findOne({_id: slug}, '_id title author price cover_image genres')
+    const book = await Book.findOne({_id: slug}, '_id title author price cover_image genres').lean() as {
+        _id: string;
+        title: string;
+        author: string;
+        price: number;
+        genres: string[];
+        cover_image: string;
+      } | null;
 
       const moreByAuthor: {
         _id: string
@@ -34,8 +35,6 @@ async function Page({
       }[] = await Book.find({
         author: book?.author
       }, '_id title cover_image').limit(8)
-
-      console.log("MBA", moreByAuthor)
 
       if(!book) {
         return <div>
@@ -85,7 +84,10 @@ async function Page({
                     <Star className='text-text/70 cursor-pointer' />
                     <Star className='text-text/70 cursor-pointer' />
                 </div>
-                <button className='bg-accent px-4 py-2 rounded-sm my-8'>Add to cart</button>
+                <AddToCart book={{
+                    ...book,
+                    _id: book._id.toString()
+                }}/>
             </div>
         </div>
         </div>

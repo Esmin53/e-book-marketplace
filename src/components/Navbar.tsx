@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useContext, useState } from 'react'
 import SearchBar from './SearchBar'
+import Cart from './Cart'
 
 const Navbar = () => {
 
@@ -36,7 +37,7 @@ const Navbar = () => {
         }
         {session?.data?.user.role === 'admin' ? <Link href={'/dashboard/new-book'} className='text-text'>
           <ChartNoAxesColumn />
-        </Link> : <ShoppingBag className='text-text w-5 h-5 cursor-pointer' />}
+        </Link> : <Cart />}
         <button className='text-lg cursor-pointer rounded-full' onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}>
               {theme === 'dark' ? <Sun /> : <Moon />}
         </button>
