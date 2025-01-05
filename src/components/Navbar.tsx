@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <div className='w-full h-20 bg-accent flex items-center px-52 shadow-sm text-text gap-6'>
         <div className='flex gap-6 items-center'>
-            <h1 className='text-5xl font-semibold'>Logo</h1>
+            <Link href='/' className='text-5xl font-semibold'>Logo</Link>
             <p className='text-lg cursor-pointer'>Discover</p>
             <SearchBar />
         </div>
