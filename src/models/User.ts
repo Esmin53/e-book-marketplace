@@ -8,6 +8,10 @@ const UserSchema = new Schema({
     type: String,
     default: "user", 
   },
+  library: [{
+    bookId: { type: Schema.Types.ObjectId, ref: 'Book' },
+    purchasedAt: { type: Date, default: Date.now }
+  }],
   createdAt: {
     type: Date,
     default: Date.now,

@@ -4,6 +4,7 @@
 import { useCart } from '@/hooks/useCart'
 import { ShoppingBag, X } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { useState } from 'react'
 
 const Cart = () => {
@@ -54,7 +55,7 @@ const Cart = () => {
                         <p>Cart total</p>
                         <p>$ {total}</p>
                     </div>
-                    <button className='py-2 w-full flex items-center justify-center bg-accent hover:bg-accent/90 rounded-md shadow'>Checkout</button>
+                    <Link href={'/checkout'} className='py-2 w-full flex items-center justify-center bg-accent hover:bg-accent/90 rounded-md shadow font-medium'>Checkout</Link>
                 </div>
             </div>
 
