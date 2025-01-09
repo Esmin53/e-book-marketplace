@@ -23,7 +23,7 @@ const ThemeContextProvider = ({children}: {
             setTheme
         }
     }>
-        <div className={`${theme} min-h-screen flex-1 bg-primary`}>
+        <div className={`${theme} bg-primary`}>
             {children}
         </div>
     </ThemeContext>
